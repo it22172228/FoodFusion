@@ -73,6 +73,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center">
             <span className="text-xl font-bold text-primary">FoodFusion</span>
           </Link>
+          
         </div>
 
         {/* Desktop Navigation */}

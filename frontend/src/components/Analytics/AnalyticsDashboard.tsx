@@ -1,8 +1,7 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 import {
   BarChart,
   Bar,
@@ -106,64 +105,67 @@ const AnalyticsDashboard = () => {
           <TabsTrigger value="cuisine">Cuisine Breakdown</TabsTrigger>
           <TabsTrigger value="ratings">Restaurant Ratings</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="revenue">
           <Card>
             <CardHeader>
               <CardTitle>Revenue & Orders</CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <div className="h-[400px]">
-                <ChartContainer 
+              <div className="relative h-[400px]">
+                <ChartContainer
                   config={{
                     revenue: { color: "#FF6384" },
                     orders: { color: "#36A2EB" },
                   }}
+                  className="h-full"
                 >
-                  <LineChart
-                    data={salesData}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis yAxisId="left" />
-                    <YAxis yAxisId="right" orientation="right" />
-                    <Tooltip
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          return (
-                            <ChartTooltipContent
-                              active={active}
-                              payload={payload}
-                            />
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Legend />
-                    <Line
-                      yAxisId="left"
-                      type="monotone"
-                      dataKey="revenue"
-                      stroke="var(--color-revenue)"
-                      activeDot={{ r: 8 }}
-                      name="Revenue (Rs.)"
-                    />
-                    <Line
-                      yAxisId="right"
-                      type="monotone"
-                      dataKey="orders"
-                      stroke="var(--color-orders)"
-                      name="Orders"
-                    />
-                  </LineChart>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={salesData}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis yAxisId="left" />
+                      <YAxis yAxisId="right" orientation="right" />
+                      <Tooltip
+                        content={({ active, payload }) => {
+                          if (active && payload && payload.length) {
+                            return (
+                              <ChartTooltipContent
+                                active={active}
+                                payload={payload}
+                              />
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Legend />
+                      <Line
+                        yAxisId="left"
+                        type="monotone"
+                        dataKey="revenue"
+                        stroke="var(--color-revenue)"
+                        activeDot={{ r: 8 }}
+                        name="Revenue (Rs.)"
+                      />
+                      <Line
+                        yAxisId="right"
+                        type="monotone"
+                        dataKey="orders"
+                        stroke="var(--color-orders)"
+                        name="Orders"
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
                 </ChartContainer>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="cuisine">
           <Card>
             <CardHeader>
@@ -180,14 +182,19 @@ const AnalyticsDashboard = () => {
                       outerRadius={120}
                       fill="#8884d8"
                       dataKey="value"
-                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) =>
+                        `${name}: ${(percent * 100).toFixed(0)}%`
+                      }
                     >
                       {popularCuisineData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value) => [`${value}%`, 'Percentage']}
+                      formatter={(value) => [`${value}%`, "Percentage"]}
                     />
                     <Legend />
                   </PieChart>
@@ -196,7 +203,7 @@ const AnalyticsDashboard = () => {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="ratings">
           <Card>
             <CardHeader>
@@ -214,7 +221,11 @@ const AnalyticsDashboard = () => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="count" name="Number of Restaurants" fill="#8884d8" />
+                    <Bar
+                      dataKey="count"
+                      name="Number of Restaurants"
+                      fill="#8884d8"
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
